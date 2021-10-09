@@ -39,9 +39,8 @@ public class TodoUtil {
 		due_date = sc.next();
 		
 		TodoItem t = new TodoItem(title, desc, category, due_date);
-		list.addItem(t);
-		
-		System.out.println("항목이 정상적으로 추가되었습니다.");
+		if(list.addItem(t) > 0)
+			System.out.println("항목이 정상적으로 추가되었습니다.");
 	}
 
 	public static void deleteItem(TodoList l) {

@@ -1,6 +1,8 @@
 package com.todo.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.*;
 
 import com.todo.service.DbConnect;
@@ -15,8 +17,26 @@ public class TodoList {
 		this.conn = DbConnect.getConnection();
 	}
 
-	public void addItem(TodoItem t) {
-		list.add(t);
+	public int addItem(TodoItem t) {
+		String sql = "insert into list (title, memo, category, current_date, due_date)"
+						+ " values (?, ?, ?, ?, ?);";
+		PreparedStatement pstmt;
+		
+		int count = 0;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt = setString(1, t.getTitle());
+			pstmt = setString(2, t.getDesc());
+			pstmt = setString(3, t.getCategory());
+			pstmt = setString(4, t.getCurrent_date());
+			pstmt = setString(5, t.getDue_date());
+			count = pstmt.executeUpdate();
+			pstmt.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 	public void deleteItem(TodoItem t) {

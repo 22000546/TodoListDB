@@ -172,6 +172,23 @@ public class TodoList {
 		return count;
 	}
 
+	public ArrayList<String> getCategories() {
+		ArrayList<String> list = new ArrayList<>();
+		Statement stmt;
+		try {
+			stmt = conn.createStatement();
+			String sql = "select distinct category from list;";
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()) {
+				String s = rs.getString("category");
+				list.add(s);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
 	public void sortByName() {
 		Collections.sort(list, new TodoSortByName());
 	}

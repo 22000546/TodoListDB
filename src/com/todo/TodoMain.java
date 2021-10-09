@@ -74,8 +74,8 @@ public class TodoMain {
 				break;
 				
 			case "find":
-				String keyword = sc.next();
-				TodoUtil.findItem(l, keyword);
+				String keyword = sc.nextLine().trim();
+				TodoUtil.findList(l, keyword);
 				break;
 				
 			case "find_cate":

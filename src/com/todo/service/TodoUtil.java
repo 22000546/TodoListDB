@@ -93,19 +93,17 @@ public class TodoUtil {
 
 	}
 	
-	public static void findItem(TodoList l, String keyword) {
+	public static void findList(TodoList l, String keyword) {
 		
-		int num = 0;
+		int count = 0;
 		
-		for(TodoItem item : l.getList()) {
+		for(TodoItem item : l.getList(keyword)) {
 			if(item.findKeyword(keyword)) {
-				System.out.print(l.indexOf(item)+1 + ". ");
-				System.out.println("[" + item.getCategory() + "] " + item.getTitle() + " - " + item.getDesc() 
-				+ " (" + item.getCurrent_date() + " ~ " + item.getDue_date() + ")");
-				num ++;
+				System.out.println(item.toString());
+				count ++;
 			}	
 		}
-		System.out.println("총 " + num + "개의 항목을 찾았습니다.\n");
+		System.out.println("총 " + count + "개의 항목을 찾았습니다.\n");
 		
 	}
 	

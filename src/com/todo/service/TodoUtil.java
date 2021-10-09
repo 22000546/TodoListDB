@@ -113,6 +113,13 @@ public class TodoUtil {
 			System.out.println(item.toString());
 		}
 	}
+	
+	public static void listAll(TodoList l, String orderby, int ordering) {
+		System.out.printf("======== 전체 항목 보기 (총 %d개) ========\n", l.getCount());
+		for (TodoItem item : l.getOrderedList(orderby, ordering)) {
+			System.out.println(item.toString());
+		}
+	}
 
 	public static void listAllCategories(TodoList l) {
 		System.out.println("======== 전체 카테고리 보기 ========");

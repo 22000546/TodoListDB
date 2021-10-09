@@ -111,6 +111,19 @@ public class TodoList {
 		return count;
 	}
 	
+	public void completeItem(int index) {
+		String sql = "update list set is_completed = 1 where id = ?;";
+		PreparedStatement pstmt;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, index);
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public ArrayList<TodoItem> getList() {
 		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
 		Statement stmt;
@@ -126,12 +139,45 @@ public class TodoList {
 				String description = rs.getString("memo");
 				String due_date = rs.getString("due_date");
 				String current_date = rs.getString("current_date");
+				int is_completed = rs.getInt("is_completed");
 				TodoItem t = new TodoItem(title, description, category, due_date);
 				t.setId(id);
 				t.setCurrent_date(current_date);
+				t.setIs_completed(is_completed);
 				list.add(t);
 			}
 			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<TodoItem> getList(int comp) {
+		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
+		Statement stmt;
+		
+		try {
+			stmt = conn.createStatement();
+			String sql = "select * from list where is_completed = " + comp;
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				String category = rs.getString("category");
+				String title = rs.getString("title");
+				String description = rs.getString("memo");
+				String due_date = rs.getString("due_date");
+				String current_date = rs.getString("current_date");
+				int is_completed = rs.getInt("is_completed");
+				TodoItem t = new TodoItem(title, description, category, due_date);
+				t.setId(id);
+				t.setCurrent_date(current_date);
+				t.setIs_completed(is_completed);
+				list.add(t);
+			}
+			stmt.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -156,9 +202,11 @@ public class TodoList {
 				String description = rs.getString("memo");
 				String due_date = rs.getString("due_date");
 				String current_date = rs.getString("current_date");
+				int is_completed = rs.getInt("is_completed");
 				TodoItem t = new TodoItem(title, description, category, due_date);
 				t.setId(id);
 				t.setCurrent_date(current_date);
+				t.setIs_completed(is_completed);
 				list.add(t);
 			}
 			pstmt.close();
@@ -184,9 +232,11 @@ public class TodoList {
 				String description = rs.getString("memo");
 				String due_date = rs.getString("due_date");
 				String current_date = rs.getString("current_date");
+				int is_completed = rs.getInt("is_completed");
 				TodoItem t = new TodoItem(title, description, category, due_date);
 				t.setId(id);
 				t.setCurrent_date(current_date);
+				t.setIs_completed(is_completed);
 				list.add(t);
 			}
 			pstmt.close();
@@ -237,9 +287,7 @@ public class TodoList {
 
 	public void listAll() {
 		for (TodoItem myitem : list) {
-			System.out.print(list.indexOf(myitem)+1 + ". ");
-			System.out.println("[" + myitem.getCategory() + "] " + myitem.getTitle() + " - " + myitem.getDesc() 
-			+ " (" + myitem.getCurrent_date() + " ~ " + myitem.getDue_date() + ")");
+			System.out.println(myitem.toString());
 		}
 	}
 	
@@ -257,7 +305,7 @@ public class TodoList {
 		
 		try {
 			stmt = conn.createStatement();
-			String sql = "select * fromm list order by " + orderby;
+			String sql = "select * from list order by " + orderby;
 			if(ordering == 0)
 				sql += " desc";
 			ResultSet rs = stmt.executeQuery(sql);
@@ -287,17 +335,16 @@ public class TodoList {
 
 	public Boolean isDuplicate(String title) {
 		
-		PreparedStatement pstmt;
+		Statement stmt;
 
 		int count = 0;
 		try {
-			String sql = "select count(title) from list where title = ?;";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, title);
-			ResultSet rs = pstmt.executeQuery(sql);
+			String sql = "select count(title) from list where title = \"" + title + "\";";
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
 			rs.next();
 			count = rs.getInt("count(title)");
-			pstmt.close();
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -313,5 +360,5 @@ public class TodoList {
 	public TodoItem getItem(int index) {
 		return list.get(index);
 	}
-	
+		
 }

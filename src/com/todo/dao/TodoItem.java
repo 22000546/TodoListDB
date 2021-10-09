@@ -10,6 +10,7 @@ public class TodoItem {
     private String current_date;
     private String category;
     private String due_date;
+    private int is_completed;
 
 
     public TodoItem(String title, String desc){
@@ -40,6 +41,15 @@ public class TodoItem {
         this.current_date = date;
         this.category = category;
         this.due_date = due_date;
+    }
+    
+    public TodoItem(String title, String desc, String date, String category, String due_date, int is_completed) {
+    	this.title=title;
+        this.desc=desc;
+        this.current_date = date;
+        this.category = category;
+        this.due_date = due_date;
+        this.is_completed = is_completed;
     }
     
     public int getId() {
@@ -91,6 +101,14 @@ public class TodoItem {
     	this.due_date = due_date;
     }
     
+    public int getIs_completed() {
+    	return is_completed;
+    }
+    
+    public void setIs_completed(int is_completed) {
+    	this.is_completed = is_completed;
+    }
+    
     public boolean findKeyword(String keyword) {
     	if(title.contains(keyword) || desc.contains(keyword))
     		return true;
@@ -101,6 +119,13 @@ public class TodoItem {
     	if(category.contains(keyword))
     		return true;
     	return false;
+    }
+    
+    public String toString() {
+    	if(is_completed == 0)
+    		return id + " [" + category + "] " + title + " - " + desc + "(" + current_date + " ~ " + due_date + ")";
+    	else
+    		return id + " [" + category + "] " + title + "[V] - " + desc + "(" + current_date + " ~ " + due_date + ")";
     }
     
     public String toSaveString() {

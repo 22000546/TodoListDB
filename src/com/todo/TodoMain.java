@@ -12,10 +12,10 @@ public class TodoMain {
 	
 		Scanner sc = new Scanner(System.in);
 		TodoList l = new TodoList();
-		l.importData("todolist.txt");
+		//l.importData("todolist.txt");
 		boolean isList = false;
 		boolean quit = false;
-		TodoUtil.loadList(l, "todolist.txt");
+		//TodoUtil.loadList(l, "todolist.txt");
 		Menu.displaymenu();
 		do {
 			Menu.prompt();
@@ -67,6 +67,10 @@ public class TodoMain {
 				TodoUtil.listAll(l, "due_date", 0);
 				break;
 				
+			case "ls_comp":
+				TodoUtil.listAll(l, 1);
+				break;
+				
 			case "find":
 				String keyword = sc.nextLine().trim();
 				TodoUtil.findList(l, keyword);
@@ -75,6 +79,11 @@ public class TodoMain {
 			case "find_cate":
 				String cate = sc.nextLine().trim();
 				TodoUtil.findCateList(l, cate);
+				break;
+				
+			case "comp":
+				int id = sc.nextInt();
+				TodoUtil.completeItem(l, id);
 				break;
 
 			case "exit":
@@ -89,6 +98,6 @@ public class TodoMain {
 			
 			if(isList) l.listAll();
 		} while (!quit);
-		TodoUtil.saveList(l, "todolist.txt");
+		//TodoUtil.saveList(l, "todolist.txt");
 	}
 }

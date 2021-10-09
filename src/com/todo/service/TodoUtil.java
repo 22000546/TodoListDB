@@ -134,11 +134,9 @@ public class TodoUtil {
 	}
 
 	public static void listAll(TodoList l) {
-		System.out.println("======== 전체 항목 보기 ========");
+		System.out.printf("======== 전체 항목 보기 (총 %d개) ========\n", l.getCount());
 		for (TodoItem item : l.getList()) {
-			System.out.print(l.indexOf(item)+1 + ". ");
-			System.out.println("[" + item.getCategory() + "] " + item.getTitle() + " - " + item.getDesc() 
-			+ " (" + item.getCurrent_date() + " ~ " + item.getDue_date() + ")");
+			System.out.println(item.toString());
 		}
 	}
 

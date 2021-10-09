@@ -106,22 +106,6 @@ public class TodoUtil {
 		System.out.println("총 " + count + "개의 항목을 찾았습니다.\n");
 		
 	}
-	
-	public static void findCategory(TodoList l, String keyword) {
-		
-		int num = 0;
-		
-		for(TodoItem item : l.getList()) {
-			if(item.findCategory(keyword)) {
-				System.out.print(l.indexOf(item)+1 + ". ");
-				System.out.println("[" + item.getCategory() + "] " + item.getTitle() + " - " + item.getDesc() 
-				+ " (" + item.getCurrent_date() + " ~ " + item.getDue_date() + ")");
-				num ++;
-			}	
-		}
-		System.out.println("총 " + num + "개의 항목을 찾았습니다.\n");
-		
-	}
 
 	public static void listAll(TodoList l) {
 		System.out.printf("======== 전체 항목 보기 (총 %d개) ========\n", l.getCount());
@@ -139,6 +123,16 @@ public class TodoUtil {
 		}
 		System.out.println();
 		System.out.println("총 " + count + "개의 카테고리가 등록되어 있습니다.");
+	}
+	
+	public static void findCateList(TodoList l, String cate) {
+		int count = 0;
+		for(TodoItem item : l.getListCategory(cate)) {
+			System.out.println(item.toString());
+			count ++;
+		}
+		System.out.println();
+		System.out.println("총 " + count + "개의 항목을 찾았습니다.");
 	}
 	
 	public static void saveList(TodoList l, String filename) {

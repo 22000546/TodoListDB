@@ -79,8 +79,8 @@ public class TodoMain {
 				break;
 				
 			case "find_cate":
-				String cate = sc.next();
-				TodoUtil.findCategory(l, cate);
+				String cate = sc.nextLine().trim();
+				TodoUtil.findCateList(l, cate);
 				break;
 
 			case "exit":

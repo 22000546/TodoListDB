@@ -78,10 +78,26 @@ public class TodoList {
 		list.remove(t);
 	}
 
-	void editItem(TodoItem t, TodoItem updated) {
-		int index = list.indexOf(t);
-		list.remove(index);
-		list.add(updated);
+	public int updateItem(TodoItem t) {
+		String sql = "update list set title=?, memo=?, category=?, current_date=?, due_date=?"
+				+ " where id = ?;";
+		PreparedStatement pstmt;
+		int count = 0;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, t.getTitle());
+			pstmt.setString(2, t.getDesc());
+			pstmt.setString(3, t.getCategory());
+			pstmt.setString(4, t.getCurrent_date());
+			pstmt.setString(5, t.getDue_date());
+			pstmt.setInt(6,  t.getId());
+			count = pstmt.executeUpdate();
+			pstmt.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 	
 	public ArrayList<TodoItem> getList() {

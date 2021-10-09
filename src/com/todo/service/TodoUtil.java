@@ -71,12 +71,7 @@ public class TodoUtil {
 		System.out.print("\n"
 				+ "======== 기존 항목 수정 ========\n"
 				+ "수정하고 싶은 항목의 번호를 입력해주세요. : ");
-		int index = sc.nextInt() - 1;
-		
-		if(index < 0 || index > l.getSize()) {
-			System.out.println("입력하신 번호에 해당하는 항목이 없습니다. ");
-			return;
-		}
+		int index = sc.nextInt();
 
 		System.out.print("새로운 제목을 입력해주세요. : ");
 		String new_title = sc.next().trim();
@@ -86,18 +81,19 @@ public class TodoUtil {
 		}
 		
 		System.out.print("새로운 카테고리를 입력하세요. : ");
-		String category = sc.next();
+		String new_category = sc.next();
 		
 		System.out.print("새로운 설명을 입력해주세요. : ");
 		sc.nextLine();
 		String new_description = sc.nextLine().trim();
 		
 		System.out.print("새로운 마감일자를 입력하세요. : ");
-		String due_date = sc.next();
+		String new_due_date = sc.nextLine().trim();
 		
-		l.deleteItem(l.getItem(index));
-		l.addItem(new TodoItem(new_title, new_description, category, due_date));
-		System.out.println("항목이 성공적으로 수정되었습니다.");
+		TodoItem t = new TodoItem(new_title, new_description, new_category, new_due_date);
+		t.setId(index);
+		if(l.updateItem(t) > 0)
+			System.out.println("항목이 성공적으로 수정되었습니다.");
 
 	}
 	

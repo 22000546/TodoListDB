@@ -49,15 +49,11 @@ public class TodoUtil {
 		
 		System.out.print("\n"
 				+ "======== 기존 항목 삭제 ========\n"
-				+ "선택할 항목의 번호를 입력해주세요. : ");
+				+ "삭제할 항목의 번호를 입력해주세요. : ");
 		
-		int index = sc.nextInt() - 1;
+		int index = sc.nextInt();
 		
-		if(index < 0 || index > l.getSize()) {
-			System.out.println("입력하신 번호에 해당하는 항목이 없습니다. ");
-			return;
-		} else {
-			l.deleteItem(l.getItem(index));
+		if (l.deleteItem(index) > 0) {
 			System.out.println("해당 항목이 성공적으로 삭제되었습니다.");
 		}
 		

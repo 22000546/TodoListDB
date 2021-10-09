@@ -74,8 +74,19 @@ public class TodoList {
 		return count;
 	}
 
-	public void deleteItem(TodoItem t) {
-		list.remove(t);
+	public int deleteItem(int index) {
+		String sql = "delete from list where id = ?;";
+		PreparedStatement pstmt;
+		int count = 0;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, index);
+			count = pstmt.executeUpdate();
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 	public int updateItem(TodoItem t) {

@@ -131,7 +131,7 @@ public class TodoList {
 				t.setCurrent_date(current_date);
 				list.add(t);
 			}
-			
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -161,6 +161,7 @@ public class TodoList {
 				t.setCurrent_date(current_date);
 				list.add(t);
 			}
+			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -188,6 +189,7 @@ public class TodoList {
 				t.setCurrent_date(current_date);
 				list.add(t);
 			}
+			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -222,6 +224,7 @@ public class TodoList {
 				String s = rs.getString("category");
 				list.add(s);
 			}
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -270,6 +273,7 @@ public class TodoList {
 				t.setCurrent_date(current_date);
 				list.add(t);
 			}
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -282,9 +286,23 @@ public class TodoList {
 	}
 
 	public Boolean isDuplicate(String title) {
-		for (TodoItem item : list) {
-			if (title.equals(item.getTitle())) return true;
+		
+		PreparedStatement pstmt;
+
+		int count = 0;
+		try {
+			String sql = "select count(title) from list where title = ?;";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, title);
+			ResultSet rs = pstmt.executeQuery(sql);
+			rs.next();
+			count = rs.getInt("count(title)");
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+		if(count > 0) 
+			return true;
 		return false;
 	}
 	
